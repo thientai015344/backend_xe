@@ -1,90 +1,91 @@
-import db from '../models'
-import bcrypt  from 'bcryptjs';
+const bcrypt = require('bcryptjs');
+const db = require('../models')
 
 const salt = bcrypt.genSaltSync(10);
 
 let hashUserPasswords = (password) => {
-    return new Promise( async (resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
 
-        try {       
-            var hashPassword =  await bcrypt.hashSync(password, salt);
+        try {
+            var hashPassword = await bcrypt.hashSync(password, salt);
             resolve(hashPassword);
-            
+
         } catch (error) {
             reject(error);
-            
+
         }
     })
-    
+
 }
 
 
 
-let handleUserLogin = (username, password) =>{
-    return new Promise(async(resolve, reject) =>{
+let handleUserLogin = (username, password) => {
+    console.log('data login', username, password)
+    return new Promise(async (resolve, reject) => {
         try {
-            let userData ={};
+            let userData = {};
 
             let isExist = await checkUsername(username);
-            if(isExist) {
+            if (isExist) {
                 let user = await db.user.findOne({
-                    where: {username: username},
-                    attributes: ['id', 'roleId', 'password'],
+                    where: { username: username },
+                    attributes: ['id', 'username', 'phonenumber', 'interfaceName', 'password'],
                     raw: true
 
                 });
-                if(user){
-                   let check = await bcrypt.compareSync(password, user.password);
-                    if(check){
-                     
+                if (user) {
+                    let check = await bcrypt.compareSync(password, user.password);
+                    if (check) {
+
                         userData.errCode = 0;
                         userData.errMessage = 'Ok';
                         delete user.password;
                         userData.user = user;
-                        
+
                     }
                     else {
                         userData.errCode = 3;
                         userData.errMessage = 'sai mật khẩu'
                     }
-                }else{
+                } else {
                     userData.errCode = 2;
                     userData.errMessage = `User's not found`;
                 }
-                
-           
+
+
             }
-            else{
+            else {
 
                 userData.errCode = 1;
-                userData.errMessage =`Your's username isn't exist your system. please try other username !`;
-              
+                userData.errMessage = `Your's username isn't exist your system. please try other username !`;
+
             }
             resolve(userData);
-            
+
         } catch (error) {
             reject(error);
-            
+
         }
     })
 }
 
 
 let checkUsername = (username) => {
-    return new Promise(async(resolve, reject) =>{
+    return new Promise(async (resolve, reject) => {
         try {
             let user = await db.user.findOne({
-              where: { username: username}
+                where: { username: username }
             })
-            if(user){
+            if (user) {
                 resolve(true);
             }
-            else{
+            else {
                 resolve(false);
             }
-            
+
         } catch (error) {
-            reject(error);   
+            reject(error);
         }
     })
 }
@@ -92,134 +93,135 @@ let checkUsername = (username) => {
 
 let getAllUsers = (userId) => {
 
-    return new Promise(async(resolve, reject) =>{
+    return new Promise(async (resolve, reject) => {
         try {
             let users = '';
-            if(userId === 'ALL') {
+            if (userId === 'ALL') {
 
                 users = await db.user.findAll({
 
-                    attributes:{
+                    attributes: {
                         exclude: ['password'],
                     }
 
                 });
-         
+
 
             }
-            
-            if(userId && userId !== 'ALL') {
+
+            if (userId && userId !== 'ALL') {
                 users = await db.user.findOne({
-                    where:{id : userId},
-                    attributes:{exclude: ['password']},
+                    where: { id: userId },
+                    attributes: { exclude: ['password'] },
                 })
-                   
+
             }
             resolve(users);
-        
+
         } catch (error) {
-            reject(error);     
+            reject(error);
         }
     })
-    
+
 }
-   
-let CreateNewUser = (data) =>{
-    return new Promise(async(resolve, reject) =>{
+
+let CreateNewUser = (data) => {
+    console.log('data', data)
+    return new Promise(async (resolve, reject) => {
         try {
             let check = await checkUsername(data.username);
-            if(check==true){
-                
+            if (check == true) {
+
                 resolve({
-                    errCode : 1, 
+                    errCode: 1,
                     errMessage: 'this username is already in used, plz try anothe username'
                 })
-                
-            }else{
+
+            } else {
                 let hashPasswordFromBcrypt = await hashUserPasswords(data.password);
-                
+
                 await db.user.create({
-    
+
                     username: data.username,
                     password: hashPasswordFromBcrypt,
-                    email: data.email,
+                    interfaceName: data.name,
                     phonenumber: data.phonenumber,
-                    roleId: data.roleId,
+
                 })
-    
+
                 resolve({
-                    errCode :0 ,
-                    message : 'ok'
-    
+                    errCode: 0,
+                    message: 'ok'
+
                 })
             }
         } catch (error) {
-        reject (error); 
-            
+            reject(error);
+
         }
     })
 }
 
 let deleteUser = (id) => {
-    return new Promise(async(resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
         let user = await db.user.findOne({
-            where: { id: id}
+            where: { id: id }
         })
-        if(!user){
-            resolve ({ 
+        if (!user) {
+            resolve({
                 errCode: 2,
-                errMessage : `The user isn't exist`
+                errMessage: `The user isn't exist`
             })
         }
-       // awaxit user.destroy();
-       await db.user.destroy({
-           where: { id: id}
-       });
-        
-        resolve({ 
+        // awaxit user.destroy();
+        await db.user.destroy({
+            where: { id: id }
+        });
+
+        resolve({
             errCode: 0,
-            message : `delete successfully'`
+            message: `delete successfully'`
 
 
         })
 
-        
+
     })
 
 }
 
 let updateUserData = (data) => {
 
-    return new Promise(async(resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
         try {
-            if(!data.id){
-                resolve({ 
+            if (!data.id) {
+                resolve({
                     errCode: 2,
-                    errMessage:'missing required data'
+                    errMessage: 'missing required data'
                 })
             }
-            let user  = await db.user.findOne({ 
-                where : {id : data.id},
-                raw : false
+            let user = await db.user.findOne({
+                where: { id: data.id },
+                raw: false
             })
-            if(user) {
+            if (user) {
                 user.username = data.username,
-                user.email = data.email,
-                user.phonenumber = data.phonenumber,
-                user.interfaceName = data.interfaceName,
-                user.avata = data.avatasinger,
-                await user.save();
-                    // sername = data.username,
-                    // mail = data.email,
-                    // phonenumber = data.phonenumber,
+                    user.email = data.email,
+                    user.phonenumber = data.phonenumber,
+                    user.interfaceName = data.interfaceName,
+                    user.avata = data.avatasinger,
+                    await user.save();
+                // sername = data.username,
+                // mail = data.email,
+                // phonenumber = data.phonenumber,
 
-               // });
+                // });
                 resolve({
                     errCode: 0,
-                    message:'updata successfully',
+                    message: 'updata successfully',
                 })
-               
-            } else{
+
+            } else {
                 resolve(
                     {
                         errCode: 1,
@@ -228,17 +230,17 @@ let updateUserData = (data) => {
                 );
             }
 
-            
+
         } catch (error) {
             reject(error);
-            
+
         }
     })
 
 }
 
-    
-    
+
+
 
 
 

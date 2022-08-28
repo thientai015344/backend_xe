@@ -1,17 +1,17 @@
-import express from 'express';
-import homeController from '../controllers/homeController';
-import userController from '../controllers/userController'
-import SingerController from '../controllers/SingerController'
-import albumController from '../controllers/albumController'
-import playlistController from '../controllers/playlistController'
-import trackController from '../controllers/trackController'
+const express = require('express')
+const homeController = require('../controllers/homeController');
+
+const SingerController = require('../controllers/SingerController')
+const albumController = require('../controllers/albumController')
+const playlistController = require('../controllers/playlistController')
+const trackController = require('../controllers/trackController')
 
 
 let router = express.Router();
 
 let initWebRoutes = (app) => {
 
-    router.get('/',homeController.getHomePage);
+    router.get('/', homeController.getHomePage);
 
     router.get('/album', homeController.getAlbumPage);
     router.get('/song', homeController.getsongPage);
@@ -19,7 +19,7 @@ let initWebRoutes = (app) => {
     router.get('/singer', homeController.getSinger);
     router.post('/post-singer', homeController.postNewSinger);
 
-    
+
 
     router.get('/user', homeController.getUser);
     router.post('/post-user', homeController.postNewUSer);
@@ -27,7 +27,7 @@ let initWebRoutes = (app) => {
     router.get('/edit-user', homeController.getEditUSER);
     router.post('/put-user', homeController.putUSER);
     router.get('/delete-user', homeController.deleteUSER);
-    
+
 
 
 
@@ -37,7 +37,7 @@ let initWebRoutes = (app) => {
     router.put('/api/edit-userAdm', userController.handleEditUser);
     router.delete('/api/delete-userAdm', userController.handleDeleteUser);
 
-                                                                                            
+
 
     //--------------------singer---------------------//
 
@@ -54,7 +54,7 @@ let initWebRoutes = (app) => {
     //--------------------singer---------------------//
 
 
-    
+
     //--------------------album---------------------//
 
 
@@ -90,7 +90,7 @@ let initWebRoutes = (app) => {
     //--------------------playlist---------------------//
 
 
-    
+
     //--------------------track---------------------//
 
 
@@ -103,17 +103,17 @@ let initWebRoutes = (app) => {
 
 
     //--------------------track---------------------//
-    
-
-     //--------------------Album_has_track---------------------//
 
 
+    //--------------------Album_has_track---------------------//
 
-     router.post('/api/create-new-track-for-album', albumController.handleAddTrack);
-     
- 
- 
-     //--------------------Album_has_track---------------------//
+
+
+    router.post('/api/create-new-track-for-album', albumController.handleAddTrack);
+
+
+
+    //--------------------Album_has_track---------------------//
 
 
 

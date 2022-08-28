@@ -10,9 +10,9 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      user.hasMany(models.comments,{ foreignKey: "userId",});
-      user.hasMany(models.playlists,{ foreignKey: "userId",});
-      user.hasMany(models.librytracks,{ foreignKey: "userId",});
+      user.hasMany(models.managecars, { foreignKey: "userId", });
+      user.hasMany(models.consignments, { foreignKey: "userId", });
+      user.hasMany(models.bookingseats, { foreignKey: "userId", });
 
 
       // define association here
@@ -22,11 +22,9 @@ module.exports = (sequelize, DataTypes) => {
     username: DataTypes.STRING,
     interfaceName: DataTypes.STRING,
     password: DataTypes.STRING,
-    email: DataTypes.STRING,
     phonenumber: DataTypes.STRING,
-    avata: DataTypes.BLOB('long'),
-    roleId: DataTypes.STRING,
-   
+
+
   }, {
     sequelize,
     modelName: 'user',

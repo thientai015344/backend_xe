@@ -2,23 +2,17 @@
 module.exports = {
 
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('users', {
+    await queryInterface.createTable('seatbooks', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER,
+        type: Sequelize.INTEGER
       },
-      username: {
-        type: Sequelize.STRING
+      bookingseatsId: {
+        type: Sequelize.INTEGER
       },
-      password: {
-        type: Sequelize.STRING
-      },
-      interfaceName: {
-        type: Sequelize.STRING
-      },
-      phonenumber: {
+      seatId: {
         type: Sequelize.STRING
       },
       createdAt: {
@@ -29,9 +23,11 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE
       },
+
+
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('users');
+    await queryInterface.dropTable('seatbooks');
   }
 };

@@ -1,9 +1,8 @@
 {
   "development": {
     "username": "root",
-    "password": "Thientai01292@",
-    "database": "music", 
-    
+    "password": null,
+    "database": "nha72484_xe",
     "host": "localhost",
     "dialect": "mysql",
     "logging": false,
