@@ -71,7 +71,7 @@ let initRoutes = (app) => {
     router.delete('/api/delete-manageCar', manageCarController.handleDeletemanageCar);//done
 
     router.get('/api/get-all-commodity', commodityController.handleGetAllcommoditys);//done
-    router.get('/api/get-all-commoditydate', commodityController.handleGetAllcommoditydate);//done
+    router.post('/api/get-all-commoditydate', commodityController.handleGetAllcommoditydate);//done
 
     router.post('/api/create-new-commodity', commodityController.handleCreateNewcommoditys); //done
     router.put('/api/edit-commodity', commodityController.handleEditcommoditys);//done
@@ -97,6 +97,13 @@ let initRoutes = (app) => {
 
     router.put('/api/edit-bookingseat', bookingseatController.handleEditbookingseat);//done
     router.delete('/api/delete-bookingseat', bookingseatController.handleDeletebookingseat);//done
+
+
+
+    router.post('/api/get-all-thuve', carsController.handleGetThuve);//done
+
+    router.post('/api/get-all-thuhnag', carsController.handleGetThuhnag);//done
+
 
 
 

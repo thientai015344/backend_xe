@@ -19,6 +19,7 @@ module.exports = (sequelize, DataTypes) => {
 
   cars.init({
     platesCar: DataTypes.STRING,
+    status: DataTypes.INTEGER
 
   }, {
     sequelize,

@@ -20,7 +20,7 @@ let getAllcommoditys = (commodityId) => {
                     },
                     include: [
                         {
-                            model: db.cars, attributes: { exclude: ['id', 'createdAt', 'updatedAt'] }
+                            model: db.cars, attributes: { exclude: ['createdAt', 'updatedAt'] }
                         }
                     ],
                     raw: true,
@@ -46,43 +46,34 @@ let getAllcommoditys = (commodityId) => {
 
 }
 
-let getAllcommodiidate = (commoditydata) => {
-    console.log(commoditydata)
-
-    const datefrom = commoditydata.from;
-    const dateto = commoditydata.to;
-    console.log(datefrom)
-
-    console.log(dateto)
-
-
+let getAllcommodiidate = (from, to) => {
 
     return new Promise(async (resolve, reject) => {
         try {
             let commoditys = '';
-            if (commoditydata) {
 
-                commoditys = await db.commodities.findAll({
-                    where: {
-                        dateinput: {
-                            [Op.between]: [datefrom, dateto]
-                        }
-                    },
 
-                    attributes: {
-                        exclude: ['id', 'createdAt', 'updatedAt'],
-                    },
-                    include: [
-                        {
-                            model: db.cars, attributes: { exclude: ['id', 'createdAt', 'updatedAt'] }
-                        }
-                    ],
-                    raw: true,
-                    nest: true,
+            commoditys = await db.commodities.findAll({
+                where: {
+                    dateinput: {
+                        [Op.between]: [from, to]
+                    }
+                },
 
-                });
+                attributes: {
+                    exclude: ['id', 'createdAt', 'updatedAt'],
+                },
+                include: [
+                    {
+                        model: db.cars, attributes: { exclude: ['id', 'createdAt', 'updatedAt'] }
+                    }
+                ],
+                raw: true,
+                nest: true,
 
-            }
+            });
+
+
             resolve(commoditys);
 
         } catch (error) {
@@ -143,6 +134,7 @@ let deletecommodity = (id) => {
 }
 
 let updatecommodityData = (data) => {
+
     return new Promise(async (resolve, reject) => {
         try {
             if (!data.id) {
@@ -159,6 +151,8 @@ let updatecommodityData = (data) => {
 
                 commodity.descriptioncommodities = data.descriptioncommodities,
                     commodity.price = data.price
+                commodity.commonCarId = data.commonCarId,
+                    commodity.dateinput = data.dateinput
 
 
                 await commodity.save();

@@ -2,7 +2,7 @@
 const db = require('../models')
 
 let getAllsignments = (signmentId) => {
-
+    console.log('sdfd', signmentId)
     return new Promise(async (resolve, reject) => {
         try {
             let signments = '';
@@ -60,6 +60,8 @@ let getAllsignments = (signmentId) => {
 
 let CreateNewsignments = (data) => {
 
+    console.log('id ca', data)
+
     return new Promise(async (resolve, reject) => {
         try {
 
@@ -75,6 +77,7 @@ let CreateNewsignments = (data) => {
                 phonenumberUserGet: data.phonenumberUserGet,
                 typecommoditiesId: data.typecommoditiesId,
                 price: data.price,
+                carhangId: data.carhangId,
                 date: data.date,
                 userId: data.userId,
             })
@@ -121,6 +124,7 @@ let deletesignment = (id) => {
 }
 
 let updatesignmentData = (data) => {
+    console.log('dataaedit', data)
     return new Promise(async (resolve, reject) => {
         try {
             if (!data.id) {
@@ -140,6 +144,9 @@ let updatesignmentData = (data) => {
                     signment.nameUserGet = data.nameUserGet,
                     signment.phonenumberUserGet = data.phonenumberUserGet,
                     signment.typecommoditiesId = data.typecommoditiesId,
+                    signment.carhangId = data.carhangId,
+                    signment.price = data.price,
+                    signment.date = data.date,
                     signment.userId = data.userId,
 
                     await signment.save();

@@ -24,6 +24,7 @@ module.exports = (sequelize, DataTypes) => {
     date: DataTypes.DATE,
     carId: DataTypes.INTEGER,
     roadmapsId: DataTypes.INTEGER,
+    status: DataTypes.INTEGER,
     userId: DataTypes.INTEGER
 
 

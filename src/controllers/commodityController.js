@@ -21,17 +21,18 @@ let handleGetAllcommoditys = async (req, res) => {
 }
 
 let handleGetAllcommoditydate = async (req, res) => {
-    console.log('drfsdg', req.body)
+    console.log('>>> check data: ', req.body)
 
-    let id = req.body;
-    if (!id) {
-        return res.status(200).json({
-            errCode: 1,
-            errMessage: 'missing required parameters',
-            commoditys: []
-        })
-    }
-    let commoditys = await commoditysSevice.getAllcommodiidate(id);
+    // let id = req.body;
+    // if (!id) {
+    //     return res.status(200).json({
+    //         errCode: 1,
+    //         errMessage: 'missing required parameters',
+    //         commoditys: []
+    //     })
+    // }
+    let { from, to } = req.body;
+    let commoditys = await commoditysSevice.getAllcommodiidate(from, to);
     return res.status(200).json({
         errCode: 0,
         errMessage: 'ok',

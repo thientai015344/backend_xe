@@ -62,14 +62,6 @@ let getAllbookingseat = (CarId) => {
 
 
 
-
-
-
-
-
-
-
-
 let getAllbookingseatxe = (CarId) => {
 
     return new Promise(async (resolve, reject) => {
@@ -128,7 +120,7 @@ let getAllvexe = (CarId) => {
                     include: [
 
                         {
-                            model: db.bookingseats, attributes: { exclude: ['id', 'ManegeId', 'userId', 'createdAt', 'updatedAt'] }, include: [
+                            model: db.bookingseats, attributes: { exclude: [, 'ManegeId', 'userId', 'createdAt', 'updatedAt'] }, include: [
                                 {
                                     model: db.managecars, attributes: { exclude: ['id', 'carId', 'roadmapsId', 'userId', 'createdAt', 'updatedAt'] }, include: [
                                         { model: db.cars, attributes: { exclude: ['id', 'createdAt', 'updatedAt'] }, },
@@ -265,6 +257,7 @@ let deleteCar = (id) => {
 }
 
 let updateCarData = (data) => {
+    console.log('dfgdgvf', data)
     return new Promise(async (resolve, reject) => {
         try {
             if (!data.id) {
@@ -281,9 +274,7 @@ let updateCarData = (data) => {
 
                 Car.nameClient = data.nameClient,
                     Car.phoneNumber = data.phoneNumber,
-                    Car.price = data.price,
-                    Car.ManegeId = data.ManegeId,
-                    Car.userId = data.userId,
+
 
 
 

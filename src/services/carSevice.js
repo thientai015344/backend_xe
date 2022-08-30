@@ -1,6 +1,7 @@
 
 const db = require('../models')
 
+const { Op } = require('sequelize');
 
 
 let checkplatesCar = (platesCar) => {
@@ -21,6 +22,88 @@ let checkplatesCar = (platesCar) => {
         }
     })
 }
+
+let getAllthuve = (from, to) => {
+
+    return new Promise(async (resolve, reject) => {
+        try {
+            let commoditys = '';
+
+
+            commoditys = await db.managecars.findAll({
+                where: {
+                    date: {
+                        [Op.between]: [from, to]
+                    }
+                },
+
+                attributes: {
+                    exclude: ['id', 'date', 'carId', 'roadmapsId', 'userId', 'createdAt', 'updatedAt'],
+
+                }, include: [
+                    {
+                        model: db.bookingseats, attributes: { exclude: ['nameClient', 'phoneNumber', 'price', 'ManegeId', 'userId', 'createdAt', 'updatedAt'] }
+                    }
+                ],
+                raw: true,
+                nest: true,
+
+            });
+
+
+            resolve(commoditys);
+
+        } catch (error) {
+            reject(error);
+        }
+    })
+
+}
+
+
+
+
+let getAllthuhang = (from, to) => {
+
+    return new Promise(async (resolve, reject) => {
+        try {
+            let commoditys = '';
+
+
+            commoditys = await db.consignments.findAll({
+                where: {
+                    date: {
+                        [Op.between]: [from, to]
+                    }
+                },
+
+                attributes: {
+                    exclude: ['id', 'nameUserGet', 'phonenumberUserGet', 'typecommoditiesId', 'userId', 'carhangId', 'createdAt', 'updatedAt'],
+
+                }, include: [
+                    {
+                        model: db.managecars, attributes: { exclude: ['id', 'date', 'carId', 'roadmapsId', 'userId', 'createdAt', 'updatedAt'] }, include: [
+                            { model: db.cars, attributes: { exclude: ['id', 'createdAt', 'updatedAt'] }, },
+
+                        ]
+                    }
+                ],
+                raw: true,
+                nest: true,
+
+            });
+
+
+            resolve(commoditys);
+
+        } catch (error) {
+            reject(error);
+        }
+    })
+
+}
+
+
 
 
 let getAllCars = (CarId) => {
@@ -144,6 +227,7 @@ let CreateNewcars = (data) => {
                 await db.cars.create({
 
                     platesCar: data.platesCar,
+                    status: data.status
 
 
                 })
@@ -204,9 +288,11 @@ let updateCarData = (data) => {
             })
             if (Car) {
                 Car.platesCar = data.platesCar,
+                    Car.status = data.status
 
 
-                    await Car.save();
+
+                await Car.save();
 
 
                 // });
@@ -252,4 +338,6 @@ module.exports = {
     updateCarData: updateCarData,
     getDataCars: getDataCars,
     getDataCarhang: getDataCarhang,
+    getAllthuve: getAllthuve,
+    getAllthuhang: getAllthuhang
 }

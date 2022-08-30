@@ -3,7 +3,7 @@ const db = require('../models')
 
 
 let getAllmanageCar = (CarId) => {
-    console.log(CarId)
+    console.log("ffgdf", CarId)
     return new Promise(async (resolve, reject) => {
         try {
             let manageCar = '';
@@ -17,8 +17,8 @@ let getAllmanageCar = (CarId) => {
                     },
                     include: [
 
-                        { model: db.cars, attributes: { exclude: ['id', 'createdAt', 'updatedAt'] }, },
-                        { model: db.roadmaps, attributes: { exclude: ['id', 'createdAt', 'updatedAt'] }, },
+                        { model: db.cars, attributes: { exclude: ['createdAt', 'updatedAt'] }, },
+                        { model: db.roadmaps, attributes: { exclude: ['createdAt', 'updatedAt'] }, },
                     ],
                     raw: true,
                     nest: true,
@@ -70,6 +70,7 @@ let CreateNewmanageCar = (data) => {
 
                 date: data.date,
                 carId: data.carId,
+                status: trangthai,
                 roadmapsId: data.roadmapsId,
                 userId: data.userId
 
@@ -134,6 +135,7 @@ let updateCarData = (data) => {
                 Car.date = data.date,
                     Car.carId = data.carId,
                     Car.roadmapsId = data.roadmapsId,
+                    Car.status = data.status,
                     Car.userId = data.userId
 
 

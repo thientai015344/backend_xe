@@ -18,6 +18,9 @@ module.exports = {
       roadmapsId: {
         type: Sequelize.INTEGER
       },
+      status: {
+        type: Sequelize.INTEGER
+      },
       userId: {
         type: Sequelize.INTEGER
       },

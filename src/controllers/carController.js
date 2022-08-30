@@ -76,7 +76,28 @@ let handleGetDatacarhang = async (req, res) => {
 
 }
 
+let handleGetThuve = async (req, res) => {
 
+    let { from, to } = req.body;
+    let commoditys = await carsSevice.getAllthuve(from, to);
+    return res.status(200).json({
+        errCode: 0,
+        errMessage: 'ok',
+        commoditys
+    })
+
+}
+
+let handleGetThuhnag = async (req, res) => {
+    let { from, to } = req.body;
+    let commoditys = await carsSevice.getAllthuhang(from, to);
+    return res.status(200).json({
+        errCode: 0,
+        errMessage: 'ok',
+        commoditys
+    })
+
+}
 
 let handleCreateNewcars = async (req, res) => {
     let message = await carsSevice.CreateNewcars(req.body);
@@ -129,4 +150,6 @@ module.exports = {
     handleGetDatacars: handleGetDatacars,
     handleGetDatacarhang: handleGetDatacarhang,
     handleGetsenthang: handleGetsenthang,
+    handleGetThuve: handleGetThuve,
+    handleGetThuhnag: handleGetThuhnag
 }
