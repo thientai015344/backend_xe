@@ -46,44 +46,97 @@ let getAllcommoditys = (commodityId) => {
 
 }
 
-let getAllcommodiidate = (from, to) => {
+let getAllcommodiidate = (from, to, id) => {
 
-    return new Promise(async (resolve, reject) => {
-        try {
-            let commoditys = '';
+    if (!id) {
+
+        return new Promise(async (resolve, reject) => {
+
+            try {
+                let commoditys = '';
+                commoditys = await db.commodities.findAll({
+                    where: {
+
+                        dateinput: {
+                            [Op.between]: [from, to],
+                        }
+                    },
+
+                    attributes: {
+                        exclude: ['id', 'createdAt', 'updatedAt'],
+                    },
+                    include: [
+                        {
+                            model: db.cars, attributes: { exclude: ['id', 'createdAt', 'updatedAt'] }
+                        }
+                    ],
+                    raw: true,
+                    nest: true,
+
+                });
 
 
-            commoditys = await db.commodities.findAll({
-                where: {
-                    dateinput: {
-                        [Op.between]: [from, to]
-                    }
-                },
+                resolve(commoditys);
 
-                attributes: {
-                    exclude: ['id', 'createdAt', 'updatedAt'],
-                },
-                include: [
-                    {
-                        model: db.cars, attributes: { exclude: ['id', 'createdAt', 'updatedAt'] }
-                    }
-                ],
-                raw: true,
-                nest: true,
+            } catch (error) {
+                reject(error);
+            }
+        })
+    }
+    else {
+        console.log('toi day')
 
-            });
+        return new Promise(async (resolve, reject) => {
+            try {
+                let commoditys = '';
 
 
-            resolve(commoditys);
+                commoditys = await db.commodities.findAll({
+                    where: {
+                        dateinput: {
+                            [Op.between]: [from, to],
+                        },
+                        commonCarId: id
 
-        } catch (error) {
-            reject(error);
-        }
-    })
+                    },
+
+                    attributes: {
+                        exclude: ['id', 'createdAt', 'updatedAt'],
+                    },
+                    include: [
+                        {
+                            model: db.cars, attributes: { exclude: ['id', 'createdAt', 'updatedAt'] }
+                        }
+                    ],
+                    raw: true,
+                    nest: true,
+
+                });
+
+
+                resolve(commoditys);
+
+            } catch (error) {
+                reject(error);
+            }
+        })
+    }
+
 
 }
 
 let CreateNewcommoditys = (data) => {
+
+    if(data.dateinput){
+
+            
+        let mystring = data.dateinput;
+        let arrayStrig = mystring.split("T");
+        console.log(arrayStrig[0]);
+
+        var datef = arrayStrig[0] + "T00:00:00.000Z"
+
+    }
 
     return new Promise(async (resolve, reject) => {
         try {
@@ -91,7 +144,7 @@ let CreateNewcommoditys = (data) => {
                 descriptioncommodities: data.descriptioncommodities,
                 price: data.price,
                 commonCarId: data.commonCarId,
-                dateinput: data.dateinput
+                dateinput: datef
             })
             resolve({
                 errCode: 0,
@@ -135,6 +188,17 @@ let deletecommodity = (id) => {
 
 let updatecommodityData = (data) => {
 
+    if(data.dateinput){
+
+            
+        let mystring = data.dateinput;
+        let arrayStrig = mystring.split("T");
+        console.log(arrayStrig[0]);
+
+        var datef = arrayStrig[0] + "T00:00:00.000Z"
+
+    }
+
     return new Promise(async (resolve, reject) => {
         try {
             if (!data.id) {
@@ -150,9 +214,9 @@ let updatecommodityData = (data) => {
             if (commodity) {
 
                 commodity.descriptioncommodities = data.descriptioncommodities,
-                    commodity.price = data.price
+                commodity.price = data.price
                 commodity.commonCarId = data.commonCarId,
-                    commodity.dateinput = data.dateinput
+                commodity.dateinput = datef
 
 
                 await commodity.save();

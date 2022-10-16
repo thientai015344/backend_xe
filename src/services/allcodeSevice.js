@@ -7,6 +7,8 @@ const db = require('../models')
 
 let getAllallcodes = (allcodeId) => {
 
+    console.log('ghkgf', allcodeId)
+
     return new Promise(async (resolve, reject) => {
         try {
             let allcodes = '';

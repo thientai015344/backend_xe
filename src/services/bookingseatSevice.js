@@ -62,6 +62,44 @@ let getAllbookingseat = (CarId) => {
 
 
 
+
+
+
+let handlegetallseatbookbyId = (CarId) => {
+    console.log('check data get all seatbook', CarId)
+    return new Promise(async (resolve, reject) => {
+        try {
+            let seatbookbyId = '';
+
+            if (CarId) {
+                seatbookbyId = await db.seatbooks.findAll({
+                    where: { bookingseatsId: CarId },
+                    attributes: {
+                        exclude: ['createdAt', 'updatedAt'],
+                    },
+                    raw: true,
+                    nest: true,
+                })
+
+            }
+            resolve(seatbookbyId);
+
+        } catch (error) {
+            reject(error);
+        }
+    })
+
+}
+
+
+
+
+
+
+
+
+
+
 let getAllbookingseatxe = (CarId) => {
 
     return new Promise(async (resolve, reject) => {
@@ -132,11 +170,6 @@ let getAllvexe = (CarId) => {
                             ]
 
                         }
-
-
-
-
-
                     ],
                     raw: true,
                     nest: true,
@@ -274,11 +307,8 @@ let updateCarData = (data) => {
 
                 Car.nameClient = data.nameClient,
                     Car.phoneNumber = data.phoneNumber,
-
-
-
-
-                    await Car.save();
+                    Car.price = data.fricef
+                await Car.save();
 
 
                 // });
@@ -325,4 +355,5 @@ module.exports = {
     CreateNewseatbook: CreateNewseatbook,
     getAllbookingseatxe: getAllbookingseatxe,
     getAllvexe: getAllvexe,
+    handlegetallseatbookbyId: handlegetallseatbookbyId,
 }

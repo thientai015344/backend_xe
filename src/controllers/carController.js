@@ -78,8 +78,8 @@ let handleGetDatacarhang = async (req, res) => {
 
 let handleGetThuve = async (req, res) => {
 
-    let { from, to } = req.body;
-    let commoditys = await carsSevice.getAllthuve(from, to);
+    let { from, to, id } = req.body;
+    let commoditys = await carsSevice.getAllthuve(from, to, id);
     return res.status(200).json({
         errCode: 0,
         errMessage: 'ok',
@@ -89,8 +89,9 @@ let handleGetThuve = async (req, res) => {
 }
 
 let handleGetThuhnag = async (req, res) => {
-    let { from, to } = req.body;
-    let commoditys = await carsSevice.getAllthuhang(from, to);
+    console.log('dd', req.body)
+    let { from, to, id } = req.body;
+    let commoditys = await carsSevice.getAllthuhang(from, to, id);
     return res.status(200).json({
         errCode: 0,
         errMessage: 'ok',

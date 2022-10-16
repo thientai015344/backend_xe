@@ -3,7 +3,7 @@ const db = require('../models')
 
 
 let getAllmanageCar = (CarId) => {
-    console.log("ffgdf", CarId)
+
     return new Promise(async (resolve, reject) => {
         try {
             let manageCar = '';
@@ -49,6 +49,9 @@ let getAllmanageCar = (CarId) => {
                 })
 
             }
+
+
+
             resolve(manageCar);
 
         } catch (error) {
@@ -58,8 +61,54 @@ let getAllmanageCar = (CarId) => {
 
 }
 
+
+let getAllmanageCarCom = (status) => {
+
+    return new Promise(async (resolve, reject) => {
+        try {
+            let manageCar = '';
+            manageCar = await db.managecars.findAll({
+
+                where: {
+
+                    status: status
+                },
+                attributes: {
+                    exclude: ['createdAt', 'updatedAt', 'carId', 'roadmapsId', 'userId'],
+                },
+                include: [
+
+                    { model: db.cars, attributes: { exclude: ['id', 'createdAt', 'updatedAt'] }, },
+                    { model: db.roadmaps, attributes: { exclude: ['id', 'createdAt', 'updatedAt'] }, },
+                ],
+                raw: true,
+                nest: true,
+
+            })
+
+
+
+            resolve(manageCar);
+
+        } catch (error) {
+            reject(error);
+        }
+    })
+
+}
+
+
 let CreateNewmanageCar = (data) => {
-    console.log('đaamanage', data)
+    if(data.date){
+
+            
+        let mystring = data.date;
+        let arrayStrig = mystring.split("T");
+        console.log(arrayStrig[0]);
+
+        var datef = arrayStrig[0] + "T00:00:00.000Z"
+
+    }
     return new Promise(async (resolve, reject) => {
         try {
 
@@ -68,9 +117,9 @@ let CreateNewmanageCar = (data) => {
             await db.managecars.create({
 
 
-                date: data.date,
+                date: datef,
                 carId: data.carId,
-                status: trangthai,
+                status: data.status,
                 roadmapsId: data.roadmapsId,
                 userId: data.userId
 
@@ -118,7 +167,18 @@ let deleteCar = (id) => {
 }
 
 let updateCarData = (data) => {
-    console.log(data)
+
+    if(data.date){
+
+            
+        let mystring = data.date;
+        let arrayStrig = mystring.split("T");
+        console.log(arrayStrig[0]);
+
+        var datef = arrayStrig[0] + "T00:00:00.000Z"
+
+    }
+   
     return new Promise(async (resolve, reject) => {
         try {
             if (!data.id) {
@@ -132,7 +192,7 @@ let updateCarData = (data) => {
                 raw: false
             })
             if (Car) {
-                Car.date = data.date,
+                Car.date = datef,
                     Car.carId = data.carId,
                     Car.roadmapsId = data.roadmapsId,
                     Car.status = data.status,
@@ -184,4 +244,5 @@ module.exports = {
     CreateNewmanageCar: CreateNewmanageCar,
     deleteCar: deleteCar,
     updateCarData: updateCarData,
+    getAllmanageCarCom: getAllmanageCarCom,
 }

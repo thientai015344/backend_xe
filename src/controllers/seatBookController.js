@@ -30,15 +30,15 @@ let handleCreateNewseatBook = async (req, res) => {
 
 
 
-let handleDeleteseatBook = async (req, res) => {
-    if (!req.body.id) {
+let handleDeleteseatbook = async (req, res) => {
+    if (!req.body) {
         return res.status(200).json({
             errCode: 1,
-            errMessage: 'missing required parameter !'
+            errMessage: 'missing required data!'
 
         })
     }
-    let message = await seatBookSevice.deleteCar(req.body.id);
+    let message = await seatBookSevice.handleDeleteseatbook(req.body);
     return res.status(200).json(message);
 }
 
@@ -67,6 +67,6 @@ module.exports = {
 
     handleGetAllseatBook: handleGetAllseatBook,
     handleCreateNewseatBook: handleCreateNewseatBook,
-    handleDeleteseatBook: handleDeleteseatBook,
+    handleDeleteseatbook: handleDeleteseatbook,
     handleEditseatBook: handleEditseatBook,
 }

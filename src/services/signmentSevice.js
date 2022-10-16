@@ -15,7 +15,12 @@ let getAllsignments = (signmentId) => {
                     },
                     include: [
 
-                        { model: db.typecommodities, attributes: { exclude: ['id', 'createdAt', 'updatedAt'] }, },
+                        {
+                            model: db.managecars, attributes: { exclude: ['id', 'createdAt', 'updatedAt'] }, include: [
+                                { model: db.cars, attributes: { exclude: ['id', 'createdAt', 'updatedAt'] }, }
+
+                            ]
+                        }
 
                     ],
                     raw: true,
@@ -38,8 +43,12 @@ let getAllsignments = (signmentId) => {
                     },
                     attributes: { exclude: ['createdAt', 'updatedAt'] },
                     include: [
+                        {
+                            model: db.managecars, attributes: { exclude: ['id', 'createdAt', 'updatedAt'] }, include: [
+                                { model: db.cars, attributes: { exclude: ['id', 'createdAt', 'updatedAt'] }, }
 
-                        { model: db.typecommodities, attributes: { exclude: ['id', 'createdAt', 'updatedAt'] }, },
+                            ]
+                        }
 
                     ],
                     raw: true,
@@ -60,7 +69,16 @@ let getAllsignments = (signmentId) => {
 
 let CreateNewsignments = (data) => {
 
-    console.log('id ca', data)
+    if(data.date){
+
+        
+        let mystring = data.date;
+        let arrayStrig = mystring.split("T");
+        console.log(arrayStrig[0]);
+    
+        var datef = arrayStrig[0] + "T00:00:00.000Z"
+    
+    }
 
     return new Promise(async (resolve, reject) => {
         try {
@@ -78,7 +96,7 @@ let CreateNewsignments = (data) => {
                 typecommoditiesId: data.typecommoditiesId,
                 price: data.price,
                 carhangId: data.carhangId,
-                date: data.date,
+                date: datef,
                 userId: data.userId,
             })
 
@@ -124,7 +142,18 @@ let deletesignment = (id) => {
 }
 
 let updatesignmentData = (data) => {
-    console.log('dataaedit', data)
+
+    if(data.date){
+
+        
+        let mystring = data.date;
+        let arrayStrig = mystring.split("T");
+        console.log(arrayStrig[0]);
+    
+        var datef = arrayStrig[0] + "T00:00:00.000Z"
+    
+    }
+
     return new Promise(async (resolve, reject) => {
         try {
             if (!data.id) {
@@ -146,7 +175,7 @@ let updatesignmentData = (data) => {
                     signment.typecommoditiesId = data.typecommoditiesId,
                     signment.carhangId = data.carhangId,
                     signment.price = data.price,
-                    signment.date = data.date,
+                    signment.date = datef,
                     signment.userId = data.userId,
 
                     await signment.save();

@@ -31,8 +31,8 @@ let handleGetAllcommoditydate = async (req, res) => {
     //         commoditys: []
     //     })
     // }
-    let { from, to } = req.body;
-    let commoditys = await commoditysSevice.getAllcommodiidate(from, to);
+    let { from, to, id } = req.body;
+    let commoditys = await commoditysSevice.getAllcommodiidate(from, to, id);
     return res.status(200).json({
         errCode: 0,
         errMessage: 'ok',

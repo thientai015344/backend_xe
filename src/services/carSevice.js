@@ -23,83 +23,164 @@ let checkplatesCar = (platesCar) => {
     })
 }
 
-let getAllthuve = (from, to) => {
+let getAllthuve = (from, to, id) => {
+    if (!id) {
 
-    return new Promise(async (resolve, reject) => {
-        try {
-            let commoditys = '';
-
-
-            commoditys = await db.managecars.findAll({
-                where: {
-                    date: {
-                        [Op.between]: [from, to]
-                    }
-                },
-
-                attributes: {
-                    exclude: ['id', 'date', 'carId', 'roadmapsId', 'userId', 'createdAt', 'updatedAt'],
-
-                }, include: [
-                    {
-                        model: db.bookingseats, attributes: { exclude: ['nameClient', 'phoneNumber', 'price', 'ManegeId', 'userId', 'createdAt', 'updatedAt'] }
-                    }
-                ],
-                raw: true,
-                nest: true,
-
-            });
+        return new Promise(async (resolve, reject) => {
+            try {
+                let commoditys = '';
 
 
-            resolve(commoditys);
+                commoditys = await db.managecars.findAll({
+                    where: {
+                        date: {
+                            [Op.between]: [from, to]
+                        }
+                    },
 
-        } catch (error) {
-            reject(error);
-        }
-    })
+                    attributes: {
+                        exclude: ['id', 'date', 'carId', 'roadmapsId', 'userId', 'createdAt', 'updatedAt'],
+
+                    }, include: [
+                        {
+                            model: db.bookingseats, attributes: { exclude: ['nameClient', 'phoneNumber', 'price', 'ManegeId', 'userId', 'createdAt', 'updatedAt'] }
+                        }
+                    ],
+                    raw: true,
+                    nest: true,
+
+                });
+
+
+                resolve(commoditys);
+
+            } catch (error) {
+                reject(error);
+            }
+        })
+    } else {
+        return new Promise(async (resolve, reject) => {
+            try {
+                let commoditys = '';
+
+
+                commoditys = await db.managecars.findAll({
+                    where: {
+                        date: {
+                            [Op.between]: [from, to]
+                        },
+                        carId: id
+                    },
+
+                    attributes: {
+                        exclude: ['id', 'date', 'carId', 'roadmapsId', 'userId', 'createdAt', 'updatedAt'],
+
+                    }, include: [
+                        {
+                            model: db.bookingseats, attributes: { exclude: ['nameClient', 'phoneNumber', 'price', 'ManegeId', 'userId', 'createdAt', 'updatedAt'] }
+                        }
+                    ],
+                    raw: true,
+                    nest: true,
+
+                });
+
+
+                resolve(commoditys);
+
+            } catch (error) {
+                reject(error);
+            }
+        })
+    }
+
 
 }
 
 
 
 
-let getAllthuhang = (from, to) => {
+let getAllthuhang = (from, to, id) => {
 
-    return new Promise(async (resolve, reject) => {
-        try {
-            let commoditys = '';
+    if (!id) {
 
-
-            commoditys = await db.consignments.findAll({
-                where: {
-                    date: {
-                        [Op.between]: [from, to]
-                    }
-                },
-
-                attributes: {
-                    exclude: ['id', 'nameUserGet', 'phonenumberUserGet', 'typecommoditiesId', 'userId', 'carhangId', 'createdAt', 'updatedAt'],
-
-                }, include: [
-                    {
-                        model: db.managecars, attributes: { exclude: ['id', 'date', 'carId', 'roadmapsId', 'userId', 'createdAt', 'updatedAt'] }, include: [
-                            { model: db.cars, attributes: { exclude: ['id', 'createdAt', 'updatedAt'] }, },
-
-                        ]
-                    }
-                ],
-                raw: true,
-                nest: true,
-
-            });
+        return new Promise(async (resolve, reject) => {
+            try {
+                let commoditys = '';
 
 
-            resolve(commoditys);
+                commoditys = await db.consignments.findAll({
+                    where: {
+                        date: {
+                            [Op.between]: [from, to]
+                        }
+                    },
 
-        } catch (error) {
-            reject(error);
-        }
-    })
+                    attributes: {
+                        exclude: ['id', 'nameUserGet', 'phonenumberUserGet', 'typecommoditiesId', 'userId', 'carhangId', 'createdAt', 'updatedAt'],
+
+                    }, include: [
+                        {
+                            model: db.managecars, attributes: { exclude: ['id', 'date', 'carId', 'roadmapsId', 'userId', 'createdAt', 'updatedAt'] }, include: [
+                                { model: db.cars, attributes: { exclude: ['id', 'createdAt', 'updatedAt'] }, },
+
+                            ]
+                        }
+                    ],
+                    raw: true,
+                    nest: true,
+
+                });
+
+
+                resolve(commoditys);
+
+            } catch (error) {
+                reject(error);
+            }
+        })
+    } else {
+        return new Promise(async (resolve, reject) => {
+            try {
+                let commoditys = '';
+
+
+                commoditys = await db.consignments.findAll({
+                    where: {
+                        date: {
+                            [Op.between]: [from, to]
+                        },
+                        '$managecar.car.id$': { [Op.eq]: id }
+
+
+                    },
+
+                    attributes: {
+                        exclude: ['id', 'nameUserGet', 'phonenumberUserGet', 'typecommoditiesId', 'userId', 'createdAt', 'updatedAt'],
+
+                    },
+                    include: [
+                        {
+                            model: db.managecars, as: 'managecar', attributes: { exclude: ['id', 'date', 'carId', 'roadmapsId', 'userId', 'createdAt', 'updatedAt'] }, include: [
+                                { model: db.cars, as: 'car', attributes: { exclude: ['id', 'createdAt', 'updatedAt'] }, },
+
+                            ]
+                        }
+                    ],
+                    raw: true,
+                    nest: true,
+
+                });
+
+
+                resolve(commoditys);
+
+            } catch (error) {
+                reject(error);
+            }
+        })
+    }
+
 
 }
 

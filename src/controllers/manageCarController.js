@@ -21,6 +21,28 @@ let handleGetAllmanageCar = async (req, res) => {
 }
 
 
+
+
+let handleGetAllmanageCarcom = async (req, res) => {
+    let id = req.query.id;
+    if (!id) {
+        return res.status(200).json({
+            errCode: 1,
+            errMessage: 'missing required parameters',
+            manageCar: []
+        })
+    }
+    let manageCar = await manageCarSevice.getAllmanageCarCom(id);
+    return res.status(200).json({
+        errCode: 0,
+        errMessage: 'ok',
+        manageCar
+    })
+
+}
+
+
+
 let handleCreateNewmanageCar = async (req, res) => {
     let message = await manageCarSevice.CreateNewmanageCar(req.body);
     return res.status(200).json(message);
@@ -69,4 +91,5 @@ module.exports = {
     handleCreateNewmanageCar: handleCreateNewmanageCar,
     handleDeletemanageCar: handleDeletemanageCar,
     handleEditmanageCar: handleEditmanageCar,
+    handleGetAllmanageCarcom: handleGetAllmanageCarcom,
 }

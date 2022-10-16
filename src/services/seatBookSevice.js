@@ -64,20 +64,12 @@ let CreateNewseatBook = (data) => {
     })
 }
 
-let deleteCar = (id) => {
+let handleDeleteseatbook = (data) => {
+    console.log('data ')
     return new Promise(async (resolve, reject) => {
-        let Car = await db.seatbooks.findOne({
-            where: { id: id }
-        })
-        if (!Car) {
-            resolve({
-                errCode: 2,
-                errMessage: `The Car isn't exist`
-            })
-        }
-        // awaxit Car.destroy();
+
         await db.seatbooks.destroy({
-            where: { id: id }
+            where: { id: data }
         });
 
         resolve({
@@ -157,6 +149,6 @@ let updateCarData = (data) => {
 module.exports = {
     getAllseatBook: getAllseatBook,
     CreateNewseatBook: CreateNewseatBook,
-    deleteCar: deleteCar,
+    handleDeleteseatbook: handleDeleteseatbook,
     updateCarData: updateCarData,
 }

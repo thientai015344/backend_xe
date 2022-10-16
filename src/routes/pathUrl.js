@@ -9,13 +9,7 @@ const manageCarController = require('../controllers/manageCarController');
 const commodityController = require('../controllers/commodityController');
 const allcodeController = require('../controllers/allcodeController');
 const bookingseatController = require('../controllers/bookingseatController');
-
-
-
-
-
-
-
+const seatBookController = require('../controllers/seatBookController');
 
 
 
@@ -66,6 +60,9 @@ let initRoutes = (app) => {
 
 
     router.get('/api/get-all-manageCar', manageCarController.handleGetAllmanageCar);//done
+    router.get('/api/get-all-manageCarcom', manageCarController.handleGetAllmanageCarcom);//done
+
+
     router.post('/api/create-new-manageCar', manageCarController.handleCreateNewmanageCar); //done
     router.put('/api/edit-manageCar', manageCarController.handleEditmanageCar);//done
     router.delete('/api/delete-manageCar', manageCarController.handleDeletemanageCar);//done
@@ -94,9 +91,13 @@ let initRoutes = (app) => {
 
     router.post('/api/create-new-bookingseat', bookingseatController.handleCreateNewbookingseat); //done
     router.post('/api/create-new-seatbook', bookingseatController.handleCreateNewseatbook); //done
+    router.get('/api/get-seatbookbyId', bookingseatController.handlegetallseatbookbyId); //done
+
 
     router.put('/api/edit-bookingseat', bookingseatController.handleEditbookingseat);//done
     router.delete('/api/delete-bookingseat', bookingseatController.handleDeletebookingseat);//done
+    router.post('/api/delete-seatbook', seatBookController.handleDeleteseatbook);//done
+
 
 
 

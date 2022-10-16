@@ -20,6 +20,27 @@ let handleGetAllbookingseat = async (req, res) => {
 
 }
 
+
+let handlegetallseatbookbyId = async (req, res) => {
+    let id = req.query.id;
+    if (!id) {
+        return res.status(200).json({
+            errCode: 1,
+            errMessage: 'missing required parameters',
+            bookingseat: []
+        })
+    }
+    let bookingseat = await bookingseatSevice.handlegetallseatbookbyId(id);
+    return res.status(200).json({
+        errCode: 0,
+        errMessage: 'ok',
+        bookingseat
+    })
+
+}
+
+
+
 let handleGetAllbookseatxe = async (req, res) => {
     let id = req.query.id;
     if (!id) {
@@ -115,5 +136,7 @@ module.exports = {
     handleGetAllbookseatxe: handleGetAllbookseatxe,
 
     handleGetvexe: handleGetvexe,
+
+    handlegetallseatbookbyId: handlegetallseatbookbyId,
 
 }
