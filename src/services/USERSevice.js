@@ -192,7 +192,7 @@ let deleteUser = (id) => {
 
 let updateUserData = (data) => {
 
-    console.log('fjfjwwe', data);
+
     
 
     return new Promise(async (resolve, reject) => {
