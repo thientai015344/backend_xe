@@ -4,15 +4,14 @@ const USERSevice = require('../services/USERSevice');
 
 
 let handleLogin = async (req, res) => {
+
     let username = req.body.username;
     let password = req.body.password;
 
     if (!username || !password) {
         return res.status(500).json({
-
             errCode: 1,
             message: 'Missing input parameter  '
-
         });
     }
 
